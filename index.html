@@ -2,426 +2,213 @@
 <html lang="zh-Hant">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>長官今年幾歲了</title>
-    <meta name="description" content="寵物年齡換算器：輸入名子與出生年月日，計算毛孩年齡（幾歲又幾天）並換算成人類年齡。" />
-    <!-- 全部 CSS 放在此單一 style 標籤（禁止使用 ID 選擇器） -->
-    <style>
-        /* 全域設定，避免水平滾動 */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            min-width: 320px;
-            overflow-x: hidden;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>長官今年幾歲了</title>
+  <meta name="description" content="寵物年齡換算器：輸入名子與出生年月日，計算毛孩年齡（幾歲又幾天）並換算成人類年齡。" />
 
-        *,
-        *:before,
-        *:after {
-            box-sizing: inherit
-        }
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      min-width: 320px;
+      overflow-x: hidden;
+    }
 
-        /* 字體偏好：微軟正黑體優先，fallback為常用系統字 */
-        .app-root {
-            font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.4;
-            color: #222;
-            background: #fff;
-            padding: 16px;
-            min-height: 100vh;
-        }
+    *, *:before, *:after {
+      box-sizing: inherit
+    }
 
-        /* 大標題 */
-        .page-title {
-            font-size: 1.6rem;
-            margin: 0 0 12px 0;
-            font-weight: 700
-        }
+    .app-root {
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", Arial, sans-serif;
+      line-height: 1.4;
+      color: #222;
+      background: #fff;
+      padding: 16px;
+      min-height: 100vh;
+    }
 
-        /* 版面：手機優先單欄，寬螢幕變雙欄（圖片左、表單右） */
-        .card {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    .page-title {
+      font-size: 1.6rem;
+      margin: 0 0 12px 0;
+      font-weight: 700
+    }
 
-        @media(min-width:720px) {
-            .card {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 24px;
-            }
-        }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-        /* 左側圖片區 */
-        .left-col {
-            flex: 1;
-            min-width: 0
-        }
+    @media(min-width:720px) {
+      .card {
+        flex-direction: row;
+        gap: 24px;
+      }
+    }
 
-        /* min-width:0 防止彈性項目超出 */
-        .img-box {
-            width: 100%;
-            aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-            border: 3px solid #FFD4B3;
-            /* 淺橘色實線邊框 */
-            border-radius: 10px;
-            background: #fff;
-            overflow: hidden
-        }
+    .left-col {
+      flex: 1;
+    }
 
-        .img-box svg {
-            max-width: 100%;
-            height: auto;
-            display: block
-        }
+    .img-box {
+      width: 100%;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      border: 3px solid #FFD4B3;
+      border-radius: 10px;
+    }
 
-        /* 右側表單區 */
-        .right-col {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 12px
-        }
+    .right-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
 
-        .form-row {
-            display: flex;
-            flex-direction: column;
-            gap: 8px
-        }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
 
-        .label {
-            font-size: .95rem;
-            font-weight: 600
-        }
+    .label {
+      font-size: .95rem;
+      font-weight: 600
+    }
 
-        .input,
-        .btn {
-            font-size: 1rem;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            outline: none
-        }
+    .input,
+    .btn {
+      font-size: 1rem;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
 
-        .input[type="date"] {
-            padding: 8px 10px
-        }
+    .btn {
+      background: #FF8C42;
+      color: #fff;
+      cursor: pointer
+    }
 
-        .btn {
-            background: #FF8C42;
-            color: #fff;
-            border: none;
-            cursor: pointer
-        }
+    .result {
+      background: #FFF7EE;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px dashed #FFD4B3
+    }
 
-        .btn:active {
-            transform: translateY(1px)
-        }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .result {
-            background: #FFF7EE;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px dashed #FFD4B3
-        }
-
-        .muted {
-            font-size: .9rem;
-            color: #666
-        }
-
-        /* 提示小字 */
-        .note {
-            font-size: .85rem;
-            color: #777
-        }
-
-        /* Modal 覆蓋層與內容 */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50
-        }
-
-        .modal {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 90%;
-            width: 420px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2)
-        }
-
-        .modal h2 {
-            margin: 0 0 12px 0;
-            font-size: 1.2rem
-        }
-
-        .modal p {
-            margin: 0 0 16px 0
-        }
-
-        .modal .modal-close {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: #FF8C42;
-            color: #fff;
-            border: none;
-            cursor: pointer
-        }
-
-        /* 響應式：避免水平滾動 */
-        @media(max-width:719px) {
-            .page-title {
-                font-size: 1.3rem
-            }
-
-            .img-box {
-                aspect-ratio: 16/9
-            }
-        }
-
-        /* 註解插槽範例（可刪）：下面 class 可替換為自訂樣式 */
-        /* <!-- 註解插槽：若要更換主色，修改 .btn 與 .img-box border 顏色 --> */
-    </style>
+    .modal {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 420px;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="app-root">
-        <!-- 主標題 -->
-        <h1 class="page-title">長官今年幾歲了</h1>
+  <div class="app-root">
+    <h1 class="page-title">長官今年幾歲了</h1>
 
-        <div class="card">
+    <div class="card">
+      <div class="left-col">
+        <div class="img-box"></div>
+      </div>
 
-            <!-- 左側：圖片區（網路圖片預留位置，之後自行補上 src） -->
-            <div class="left-col">
-                <div class="img-box">
-                    <!-- 註解插槽：這裡之後填入你的圖片網址 -->
-                    <img src="https://images.unsplash.com/photo-1715436366960-d0a8af92c981?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="一隻可愛的白色大狗狗照片" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" />
-                </div>
-
-            </div>
-
-            <!-- 右側：表單與結果 -->
-            <div class="right-col">
-                <!-- 註解插槽：若要新增欄位（品種/體型），可在此加入 input -->
-                <div class="form-row">
-                    <label class="label" for="dog-name">毛孩名子</label>
-                    <input class="input" id="dog-name" name="dog-name" type="text" placeholder="輸入毛孩的名子（例如：小白）" />
-                </div>
-
-                <div class="form-row">
-                    <label class="label" for="dog-birth">輸入出生年月日</label>
-                    <input class="input" id="dog-birth" name="dog-birth" type="date" />
-                    <div class="muted">請選擇毛孩出生日期（年/月/日）</div>
-                </div>
-
-                <div class="form-row">
-                    <button class="btn" id="calc-btn" type="button">開始計算</button>
-                </div>
-
-                <div class="form-row">
-                    <div class="result" id="result-area" aria-live="polite">
-                        <!-- 註解插槽：初始狀態不顯示任何文字 -->
-                    </div>
-                </div>
-
-            </div>
+      <div class="right-col">
+        <div class="form-row">
+          <label class="label">毛孩名子</label>
+          <input class="input" id="dog-name" />
         </div>
 
-        <p class="note">* 換算成人類年齡使用公式：human_age = 16 × ln(dog_age_years) + 31（研究基於甲基化時鐘）。</p>
-    </div>
-    </div>
-    </div>
-
-    <!-- Modal：網頁打開時顯示歡迎視窗 -->
-    <div class="modal-backdrop" id="welcome-modal" role="dialog" aria-modal="true" style="display:flex">
-        <div class="modal" role="document">
-            <h2>是不是想知道你的毛小孩幾歲~</h2>
-            <p>輸入名子與出生日期，我會幫你算出「幾歲又幾天」，並換算成相當於人的年齡。</p>
-            <button class="modal-close" id="modal-close-btn" type="button">馬上來算</button>
+        <div class="form-row">
+          <label class="label">輸入出生年月日</label>
+          <input class="input" id="dog-birth" type="date" />
         </div>
-    </div>
 
-    <!-- JavaScript：放在 body 內（不影響 CSS 規則） -->
-    <script>
-        /* 註解插槽：JS 可依需求擴充（增加體型選項、品種修正等） */
-        (function () {
-            // 元件參考（使用 class 為主，但此處為操控簡單使用 getElementById 作為內部實作）
-            const modal = document.getElementById('welcome-modal');
-            const modalClose = document.getElementById('modal-close-btn');
-            const calcBtn = document.getElementById('calc-btn');
-            const nameInput = document.getElementById('dog-name');
-            const birthInput = document.getElementById('dog-birth');
-            const resultArea = document.getElementById('result-area');
+        <button class="btn" id="calc-btn">開始計算</button>
 
-            // 關閉 modal（點按鈕或點背景關閉）
-            modalClose.addEventListener('click', () => { modal.style.display = 'none'; });
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            });
-
-            // 工具：計算日期差（完整年數 + 剩餘天數）
-            function computeAgeYearsDays(birthDate, refDate) {
-                // birthDate, refDate 為 Date 物件（UTC 本質不重要，使用當地時間）
-                if (!(birthDate instanceof Date) || isNaN(birthDate)) return null;
-                if (!(refDate instanceof Date) || isNaN(refDate)) return null;
-                if (refDate < birthDate) return null;
-
-                // 計算整年數（歲）
-                let years = refDate.getFullYear() - birthDate.getFullYear();
-                // 調整是否已過生日
-                const refMonth = refDate.getMonth();
-                const refDay = refDate.getDate();
-                const birthMonth = birthDate.getMonth();
-                const birthDay = birthDate.getDate();
-                if (refMonth < birthMonth || (refMonth === birthMonth && refDay < birthDay)) {
-                    years -= 1;
-                }
-                // 計算從最後生日到 refDate 的天數
-                const lastBirthday = new Date(refDate.getFullYear() - ((refMonth < birthMonth || (refMonth === birthMonth && refDay < birthDay)) ? 1 : 0), birthMonth, birthDay);
-                // 若 lastBirthday 在出生日前（例如出生當年生日尚未到且年數為0），需以出生日做起點
-                const start = (lastBirthday < birthDate) ? birthDate : lastBirthday;
-                const msPerDay = 24 * 60 * 60 * 1000;
-                const days = Math.floor((refDate - start) / msPerDay);
-                return { years: years, days: days };
-            }
-
-            // 換算成人年齡函式（使用公式 human_age = 16 * ln(dog_age_years) + 31）
-            function convertToHumanAge(dogAgeYears) {
-                // 若小於很小的值（例如 0），避免 ln(0) 或負值
-                if (dogAgeYears <= 0) return null;
-                // 若狗年 < 0.01（不足約3.65天），視為不到一天
-                const val = 16 * Math.log(dogAgeYears) + 31;
-                // 對於幼犬（小於1年），公式會給較高值，但這是研究結果的數學表達
-                // 顯示到小數點後一位
-                return Math.round(val * 10) / 10;
-            }
-
-            // 主要按鈕處理
-            calcBtn.addEventListener('click', () => {
-                const name = (nameInput.value || '').trim() || '毛孩';
-                const birthVal = birthInput.value;
-
-                if (!birthVal) {
-                    resultArea.innerHTML = `
-      <div style="color:#C04A00;font-weight:700;font-size:1.1rem">
-        ⚠️ 請先選擇毛孩的出生日期唷！
+        <div class="form-row">
+          <div class="result" id="result-area"></div>
+        </div>
       </div>
-    `;
-                    return;
-                }
-
-                const birthDate = new Date(birthVal + 'T00:00:00');
-                const today = new Date();
-
-                const age = computeAgeYearsDays(birthDate, today);
-                if (age === null) {
-                    resultArea.innerHTML = `
-      <div style="color:#C04A00;font-weight:700;font-size:1.1rem">
-        ⚠️ 日期格式錯誤，請重新選擇
-      </div>
-    `;
-                    return;
-                }
-
-                const msPerDay = 24 * 60 * 60 * 1000;
-                const totalDays = Math.floor((today - birthDate) / msPerDay);
-                const dogAgeYearsDecimal = totalDays / 365.2425;
-
-                let humanAge = convertToHumanAge(dogAgeYearsDecimal);
-
-                // ✅ 若未滿 1 歲，直接顯示 0 歲
-                if (humanAge !== null && humanAge < 1) {
-                    humanAge = 0;
-                }
-
-                const ageText = `🎉 ${name} 來到這個世界上已經`;
-                const ageValue = `${age.years} 歲又 ${age.days} 天 🐾`;
-
-                const humanText = (humanAge === null)
-                    ? `💡 ${name} 目前太小，還無法精準換算成人類年齡`
-                    : `👤 換算成人類年齡大約是：${humanAge} 歲`;
-
-                resultArea.innerHTML = /* ===== [JS: LocalStorage 儲存本次計算結果開始] ===== */
-
-// 將目前畫面上的計算結果存進 localStorage
-localStorage.setItem("lastDogAgeResult", resultArea.innerHTML);
-
-/* ===== [JS: LocalStorage 儲存本次計算結果結束] ===== */`
-                
-    <div style="font-size:1.2rem;font-weight:800;color:#FF7A18;margin-bottom:6px">
-      ${ageText}
     </div>
-    <div style="font-size:1.35rem;font-weight:900;color:#222;margin-bottom:10px">
-      ${ageValue}
-    </div>
-    <div style="font-size:1.05rem;color:#333">
-      ${humanText}
-    </div>
-    <div class="muted" style="margin-top:10px">
-      ※ 人類年齡換算採用研究公式：human_age = 16 × ln(dog_age_years) + 31
-    </div>
-  `;
-            });
+  </div>
 
+  <!-- Modal -->
+  <div class="modal-backdrop" id="welcome-modal">
+    <div class="modal">
+      <h2>是不是想知道你的毛小孩幾歲~</h2>
+      <button id="modal-close-btn">馬上來算</button>
+    </div>
+  </div>
 
-            // 初次載入自動顯示 modal（modal 初始樣式為 display:flex）
-            // （已經在 DOM 內以 style 控制顯示）
-        })();
-    </script>
-    <script>
-    const KEY = 'my-note';
-    const input = document.getElementById('note-input');
-    const saveBtn = document.getElementById('save-btn');
-    const display = document.getElementById('display');
+  <script>
+  /* ===== [JS: 主計算邏輯開始] ===== */
 
-    // 第一次進來頁面時，先試著把舊資料拿出來
-    const saved = localStorage.getItem(KEY);
-    if (saved) {
-      input.value = saved;
-      display.textContent = '目前儲存的文字：' + saved;
+  (function () {
+    const calcBtn = document.getElementById('calc-btn');
+    const nameInput = document.getElementById('dog-name');
+    const birthInput = document.getElementById('dog-birth');
+    const resultArea = document.getElementById('result-area');
+
+    function convertToHumanAge(dogAgeYears) {
+      if (dogAgeYears <= 0) return null;
+      return Math.round((16 * Math.log(dogAgeYears) + 31) * 10) / 10;
     }
 
-    // 按下儲存，就把文字存進 localStorage
-    saveBtn.addEventListener('click', function () {
-      const text = input.value;
-      localStorage.setItem(KEY, text);
-      display.textContent = text
-        ? '目前儲存的文字：' + text
-        : '目前還沒有儲存任何文字。';
+    calcBtn.addEventListener('click', () => {
+      const name = nameInput.value || '毛孩';
+      const birthVal = birthInput.value;
+      const birthDate = new Date(birthVal);
+      const today = new Date();
+      const totalDays = Math.floor((today - birthDate) / 86400000);
+      const years = Math.floor(totalDays / 365.2425);
+      const days = totalDays % 365;
+
+      let humanAge = convertToHumanAge(totalDays / 365.2425);
+      if (humanAge !== null && humanAge < 1) humanAge = 0;
+
+      const html = `
+        <div style="font-size:1.2rem;font-weight:800">${name} 已經：</div>
+        <div style="font-size:1.4rem">${years} 歲 ${days} 天</div>
+        <div>換算成人類約 ${humanAge} 歲</div>
+      `;
+
+      resultArea.innerHTML = html;
+
+      /* ===== [JS: LocalStorage 儲存開始] ===== */
+      localStorage.setItem("lastDogAgeResult", html);
+      /* ===== [JS: LocalStorage 儲存結束] ===== */
     });
-    /* ===== [JS: LocalStorage 讀取上次計算結果開始] ===== */
+  })();
 
-// 從 localStorage 取得上次儲存的結果（如果存在）
-const lastResultHTML = localStorage.getItem("lastDogAgeResult");
-
-// 如果有抓到資料，就直接顯示在結果區
-if (lastResultHTML) {
-  resultArea.innerHTML = lastResultHTML;
-}
-
-/* ===== [JS: LocalStorage 讀取上次計算結果結束] ===== */
-
+  /* ===== [JS: LocalStorage 載入開始] ===== */
+  document.addEventListener('DOMContentLoaded', function () {
+    const resultArea = document.getElementById('result-area');
+    const last = localStorage.getItem("lastDogAgeResult");
+    if (last) resultArea.innerHTML = last;
+  });
+  /* ===== [JS: LocalStorage 載入結束] ===== */
   </script>
-</body>
 
+</body>
 </html>
