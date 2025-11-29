@@ -8,18 +8,19 @@
     /* 規格：手機優先，最小寬度 320px，無水平卷軸 */
     /* 規格：CSS 必須全部寫在單一 style 標籤內。禁用 ID 選擇器。 */
 
-    /* --- 90年代像素機介面風格調整 --- */
+    /* --- 復古遊戲機像素風格調整 --- */
     :root {
-        /* 主色調：螢光綠終端機配色 */
-        --primary-color: #00ff00; /* 螢光綠 */
-        --background-color: #000000; /* 純黑背景 */
-        --text-color: #00ff00; /* 螢光綠文字 */
-        --border-color: #00cc00; /* 較暗的綠色邊框 */
-        --shadow-color: #009900; /* 陰影或邊框立體感顏色 */
+        /* 主色調：參考復古遊戲機/像素藝術風格 */
+        --primary-color: #ff004d; /* 鮮豔的紅色/洋紅色 (主要動作/按鈕) */
+        --secondary-color: #00e066; /* 鮮豔的綠色 (邊框/高亮) */
+        --background-color: #211c23; /* 深紫色/黑色 (背景) */
+        --text-color: #f7e0e7; /* 淺粉色/米白 (文字) */
+        --border-color-light: #fff; /* 白色/高亮邊緣 */
+        --border-color-dark: #8b3c4f; /* 陰影/深色邊緣 */
     }
 
     body {
-        /* 註冊單間距字體，模擬終端機顯示 */
+        /* 註冊單間距字體，模擬像素顯示 */
         font-family: 'Courier New', '微軟正黑體', monospace, sans-serif;
         margin: 0;
         padding: 0;
@@ -28,64 +29,72 @@
         line-height: 1.5;
         min-width: 320px;
         overflow-x: hidden;
-        /* 模擬 CRT 掃描線/顆粒感 */
-        /* background-image: radial-gradient(var(--text-color) 0.5px, transparent 0.5px); */
-        /* background-size: 2px 2px; */
-    }
-
-    /* 模擬舊螢幕的閃爍效果（可選，這裡只使用靜態 CSS）*/
-    @keyframes flicker {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.95; }
-    }
-    body, h1, .form-section {
-        /* animation: flicker 0.1s infinite alternate; */
     }
 
     .container {
+        /* 手機優先：將高度限制為視窗高度，以避免滾動 */
+        /* padding-top/bottom 稍微調整，讓內容更緊湊 */
         max-width: 1200px;
         margin: 0 auto;
-        padding: 20px;
+        padding: 10px 20px;
+        min-height: 100vh; /* 最小高度佔滿視窗 */
+        box-sizing: border-box;
     }
 
     h1 {
-        color: var(--primary-color);
-        text-align: left; /* 終端機風格偏向左對齊 */
-        margin-bottom: 30px;
-        /* 厚重的邊框和陰影模擬像素標題 */
-        text-shadow: 2px 2px 0 var(--shadow-color);
-        border-bottom: 3px solid var(--border-color);
+        color: var(--text-color);
+        text-align: center; 
+        margin-top: 10px;
+        margin-bottom: 10px;
+        /* 像素風格標題：白色外光暈 */
+        text-shadow: 0 0 5px var(--border-color-light), 0 0 10px var(--primary-color);
+        /* 簡單的底部裝飾線 */
+        border-bottom: 2px dashed var(--secondary-color);
         padding-bottom: 5px;
-        display: inline-block;
     }
 
     /* 網頁打開左右兩欄佈局的容器 (在手機上會自動堆疊) */
     .content-layout {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px; /* 縫隙變小，讓內容更緊湊 */
     }
 
-    /* 圖片位置 */
+    /* ------------------------------------- */
+    /* 圖片區塊 - 調整手機顯示比例是核心！ */
+    /* ------------------------------------- */
     .image-section {
-        flex: 1;
+        flex: 0 0 auto; /* 讓圖片區不佔用太多垂直空間 */
         /* 註解插槽：網頁打開左邊是圖片位置 */
-        /* 像素風格圖片容器，邊框模擬老式畫框或機身邊緣 */
-        border: 4px solid var(--border-color);
-        box-shadow: 8px 8px 0 var(--shadow-color);
+        /* 像素藝術邊框效果 */
+        border: 4px solid var(--border-color-light); /* 亮色邊框 */
+        box-shadow: 4px 4px 0 var(--border-color-dark), -4px -4px 0 var(--border-color-dark);
         padding: 5px;
-        background-color: #333;
+        background-color: #000;
+        max-width: 300px; /* 限制手機板圖片寬度 */
+        margin: 0 auto;
+    }
+
+    .dog-image {
+        /* 確保圖片在手機上不會太高，節省垂直空間 */
+        width: 100%;
+        height: auto;
+        max-height: 20vh; /* 限制圖片高度為視窗高度的 20% */
+        object-fit: contain;
+        border-radius: 0; 
+        display: block;
+        image-rendering: pixelated; 
     }
 
     /* 輸入欄位位置 */
     .form-section {
-        flex: 1;
-        background-color: #111; /* 深色面板 */
-        padding: 30px;
-        border-radius: 0; /* 取消圓角 */
-        /* 模擬實體機身介面，厚重邊框 */
-        border: 3px solid var(--border-color);
-        box-shadow: 8px 8px 0 var(--shadow-color);
+        flex: 1; /* 讓表單區塊佔用剩餘空間 */
+        background-color: #3f2f4c; /* 較淺的復古面板色 */
+        padding: 20px; /* 內邊距減少 */
+        border-radius: 0;
+        /* 像素藝術厚重邊框 */
+        border: 3px solid var(--border-color-light);
+        box-shadow: 6px 6px 0 var(--border-color-dark);
         /* 註解插槽：網頁打開右邊是訪客可自行輸入出生年月日的的欄位 */
     }
 
@@ -94,98 +103,88 @@
         .content-layout {
             flex-direction: row;
         }
-        .form-section {
-            margin-top: 0;
+        .image-section {
+            /* 在桌面版恢復圖片正常比例 */
+            max-width: none;
         }
-    }
-
-    /* 圖片樣式 */
-    .dog-image {
-        width: 100%;
-        height: auto;
-        max-height: 400px;
-        object-fit: cover;
-        /* 圖片本身不使用圓角 */
-        border-radius: 0; 
-        display: block;
-        /* 模擬低解析度顯示 */
-        image-rendering: pixelated; 
+        .dog-image {
+            max-height: 400px; 
+        }
     }
 
     /* 表單元素樣式 */
     .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
     label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
         font-weight: bold;
         color: var(--text-color);
-        text-shadow: 1px 1px 0 #005500; /* 讓字更突出 */
     }
 
     input[type="text"],
     input[type="date"] {
         width: 100%;
-        padding: 10px;
-        /* 模擬老式輸入框：黑底綠字，無圓角 */
+        padding: 8px; /* 減少內邊距 */
+        /* 像素輸入框 */
         background-color: #000;
-        color: var(--primary-color);
-        border: 1px solid var(--border-color);
+        color: var(--secondary-color); /* 輸入文字為亮綠色 */
+        border: 1px solid var(--secondary-color);
         border-radius: 0;
         box-sizing: border-box;
         font-size: 16px;
-        box-shadow: 2px 2px 0 var(--shadow-color); /* 簡單陰影模擬凹陷感 */
+        box-shadow: 2px 2px 0 var(--border-color-dark); 
     }
 
-    /* 按鈕樣式：模擬實體機械按鈕 */
+    /* 按鈕樣式：鮮豔的主色調 */
     .calculate-button {
         width: 100%;
-        padding: 12px;
-        background-color: var(--primary-color); /* 按鈕底色 */
-        color: var(--background-color); /* 反色文字 */
+        padding: 10px; /* 減少內邊距 */
+        background-color: var(--primary-color);
+        color: var(--text-color);
         border: none;
         border-radius: 0;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.1s;
         /* 模擬 3D 立體按鈕 */
-        border: 3px solid var(--background-color);
-        box-shadow: 4px 4px 0 var(--shadow-color);
+        border: 3px solid var(--text-color);
+        box-shadow: 4px 4px 0 var(--border-color-dark);
     }
 
     .calculate-button:hover {
-        background-color: #00cc00; /* 懸停時顏色稍變 */
-        box-shadow: 2px 2px 0 var(--shadow-color);
-        transform: translate(2px, 2px); /* 模擬按鈕被按下 */
+        background-color: #ff3377;
+        box-shadow: 2px 2px 0 var(--border-color-dark);
+        transform: translate(2px, 2px); 
     }
     
     .calculate-button:active {
         box-shadow: 0 0 0 transparent;
-        transform: translate(4px, 4px); /* 按鈕完全被按下 */
+        transform: translate(4px, 4px);
     }
 
     /* 結果顯示區塊 */
     .result-section {
-        margin-top: 30px;
-        padding: 20px;
-        /* 模擬終端機輸出區塊 */
-        border-top: 3px dashed var(--border-color);
-        background-color: #0a0a0a;
+        margin-top: 20px;
+        padding: 15px;
+        border-top: 2px solid var(--secondary-color);
+        background-color: #1a151c;
+        /* 讓結果文字突出 */
+        text-shadow: 0 0 3px var(--secondary-color); 
     }
 
     .result-section p {
         font-size: 16px;
-        margin: 10px 0;
-        text-shadow: 0 0 5px var(--primary-color); /* 模擬螢光發光 */
+        margin: 8px 0;
     }
 
     .result-section strong {
-        color: var(--primary-color);
+        color: var(--secondary-color); /* 結果數字使用亮綠色 */
         font-size: 18px;
-        text-shadow: 0 0 7px var(--primary-color); /* 強調結果 */
+        text-shadow: 0 0 10px var(--secondary-color); 
     }
 
     /* 彈窗樣式 (自製 Modal) */
@@ -203,7 +202,7 @@
     }
 
     .modal-content {
-        background-color: #111;
+        background-color: #3f2f4c;
         color: var(--text-color);
         margin: 15% auto;
         padding: 30px;
@@ -211,15 +210,14 @@
         width: 80%;
         max-width: 400px;
         text-align: center;
-        border: 3px solid var(--border-color);
-        box-shadow: 8px 8px 0 var(--shadow-color);
-        text-shadow: 1px 1px 0 var(--shadow-color);
+        border: 3px solid var(--border-color-light);
+        box-shadow: 8px 8px 0 var(--border-color-dark);
+        text-shadow: 1px 1px 0 var(--border-color-dark);
     }
 
     .modal-button {
-        /* 彈窗按鈕也使用立體機械風格 */
         background-color: var(--primary-color);
-        color: var(--background-color);
+        color: var(--text-color);
         border: none;
         padding: 10px 20px;
         text-align: center;
@@ -230,24 +228,24 @@
         cursor: pointer;
         border-radius: 0;
         transition: all 0.1s;
-        border: 3px solid var(--background-color);
-        box-shadow: 4px 4px 0 var(--shadow-color);
+        border: 3px solid var(--text-color);
+        box-shadow: 4px 4px 0 var(--border-color-dark);
     }
 
     .modal-button:hover {
-        background-color: #00cc00;
-        box-shadow: 2px 2px 0 var(--shadow-color);
+        background-color: #ff3377;
+        box-shadow: 2px 2px 0 var(--border-color-dark);
         transform: translate(2px, 2px);
     }
 
     /* 上次運算結果提示 */
     .localstorage-tip {
         margin-top: 10px;
-        color: #ffff00; /* 使用黃色警告/提示 */
-        font-size: 14px;
-        font-style: normal;
-        text-align: center;
-        text-shadow: 0 0 5px #ffff00;
+        color: transparent; /* 將文字顏色設為透明，但保持元素存在 */
+        font-size: 1px; /* 縮小字體到最小 */
+        height: 0; /* 高度設為 0 */
+        overflow: hidden; /* 隱藏內容 */
+        /* 註解插槽：上次運算結果提示文字已移除，但功能保留 */
     }
 </style>
 </head>
