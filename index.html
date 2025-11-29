@@ -8,93 +8,89 @@
     /* 規格：手機優先，最小寬度 320px，無水平卷軸 */
     /* 規格：CSS 必須全部寫在單一 style 標籤內。禁用 ID 選擇器。 */
 
-    /* --- 復古遊戲機像素風格調整 --- */
+    /* --- 清新柔和色系與圓角風格調整 --- */
     :root {
-        /* 主色調：參考復古遊戲機/像素藝術風格 */
-        --primary-color: #ff004d; /* 鮮豔的紅色/洋紅色 (主要動作/按鈕) */
-        --secondary-color: #00e066; /* 鮮豔的綠色 (邊框/高亮) */
-        --background-color: #211c23; /* 深紫色/黑色 (背景) */
-        --text-color: #f7e0e7; /* 淺粉色/米白 (文字) */
-        --border-color-light: #fff; /* 白色/高亮邊緣 */
-        --border-color-dark: #8b3c4f; /* 陰影/深色邊緣 */
+        /* 色票參考: 74D3AE, 678D58, A6C48A, F6E7CB, DD9787 */
+        --color-mint: #74D3AE;   /* 薄荷綠 (主要背景/高亮) */
+        --color-moss: #678D58;   /* 苔蘚綠 (深色文字/主色) */
+        --color-sage: #A6C48A;   /* 鼠尾草綠 (區塊背景) */
+        --color-cream: #F6E7CB;  /* 奶油白 (網頁背景) */
+        --color-salmon: #DD9787; /* 鮭魚粉 (按鈕/點綴) */
+
+        /* 圓角大小變數 */
+        --border-radius: 12px;
     }
 
     body {
-        /* 註冊單間距字體，模擬像素顯示 */
-        font-family: 'Courier New', '微軟正黑體', monospace, sans-serif;
+        /* 使用易讀字體 */
+        font-family: 'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', sans-serif;
         margin: 0;
         padding: 0;
-        background-color: var(--background-color);
-        color: var(--text-color);
-        line-height: 1.5;
+        background-color: var(--color-cream); /* 奶油白背景 */
+        color: var(--color-moss); /* 苔蘚綠文字 */
+        line-height: 1.6;
         min-width: 320px;
         overflow-x: hidden;
     }
 
     .container {
-        /* 手機優先：將高度限制為視窗高度，以避免滾動 */
-        /* padding-top/bottom 稍微調整，讓內容更緊湊 */
         max-width: 1200px;
         margin: 0 auto;
         padding: 10px 20px;
-        min-height: 100vh; /* 最小高度佔滿視窗 */
+        min-height: 100vh;
         box-sizing: border-box;
     }
 
     h1 {
-        color: var(--text-color);
+        color: var(--color-salmon); /* 鮭魚粉標題 */
         text-align: center; 
         margin-top: 10px;
-        margin-bottom: 10px;
-        /* 像素風格標題：白色外光暈 */
-        text-shadow: 0 0 5px var(--border-color-light), 0 0 10px var(--primary-color);
-        /* 簡單的底部裝飾線 */
-        border-bottom: 2px dashed var(--secondary-color);
+        margin-bottom: 15px;
+        border-bottom: 2px solid var(--color-mint);
         padding-bottom: 5px;
+        font-weight: bold;
     }
 
     /* 網頁打開左右兩欄佈局的容器 (在手機上會自動堆疊) */
     .content-layout {
         display: flex;
         flex-direction: column;
-        gap: 15px; /* 縫隙變小，讓內容更緊湊 */
+        gap: 20px;
     }
 
     /* ------------------------------------- */
-    /* 圖片區塊 - 調整手機顯示比例是核心！ */
+    /* 圖片區塊 */
     /* ------------------------------------- */
     .image-section {
-        flex: 0 0 auto; /* 讓圖片區不佔用太多垂直空間 */
+        flex: 0 0 auto;
         /* 註解插槽：網頁打開左邊是圖片位置 */
-        /* 像素藝術邊框效果 */
-        border: 4px solid var(--border-color-light); /* 亮色邊框 */
-        box-shadow: 4px 4px 0 var(--border-color-dark), -4px -4px 0 var(--border-color-dark);
+        border: 4px solid var(--color-mint);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 5px;
-        background-color: #000;
-        max-width: 300px; /* 限制手機板圖片寬度 */
+        background-color: white;
+        max-width: 300px; 
         margin: 0 auto;
+        border-radius: var(--border-radius); /* 圓角 */
+        overflow: hidden;
     }
 
     .dog-image {
-        /* 確保圖片在手機上不會太高，節省垂直空間 */
         width: 100%;
         height: auto;
-        max-height: 20vh; /* 限制圖片高度為視窗高度的 20% */
-        object-fit: contain;
-        border-radius: 0; 
+        max-height: 25vh; /* 略微提高圖片高度，平衡視覺 */
+        object-fit: cover;
         display: block;
-        image-rendering: pixelated; 
+        border-radius: calc(var(--border-radius) - 4px); /* 內層圖片圓角 */
     }
 
     /* 輸入欄位位置 */
     .form-section {
-        flex: 1; /* 讓表單區塊佔用剩餘空間 */
-        background-color: #3f2f4c; /* 較淺的復古面板色 */
-        padding: 20px; /* 內邊距減少 */
-        border-radius: 0;
-        /* 像素藝術厚重邊框 */
-        border: 3px solid var(--border-color-light);
-        box-shadow: 6px 6px 0 var(--border-color-dark);
+        flex: 1;
+        background-color: white;
+        padding: 25px;
+        /* 圓角 */
+        border-radius: var(--border-radius); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* 更明顯的陰影 */
         /* 註解插槽：網頁打開右邊是訪客可自行輸入出生年月日的的欄位 */
     }
 
@@ -104,7 +100,6 @@
             flex-direction: row;
         }
         .image-section {
-            /* 在桌面版恢復圖片正常比例 */
             max-width: none;
         }
         .dog-image {
@@ -114,77 +109,83 @@
 
     /* 表單元素樣式 */
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 18px;
     }
 
     label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         font-weight: bold;
-        color: var(--text-color);
+        color: var(--color-moss);
     }
 
     input[type="text"],
     input[type="date"] {
         width: 100%;
-        padding: 8px; /* 減少內邊距 */
-        /* 像素輸入框 */
-        background-color: #000;
-        color: var(--secondary-color); /* 輸入文字為亮綠色 */
-        border: 1px solid var(--secondary-color);
-        border-radius: 0;
+        padding: 10px;
+        background-color: #fff;
+        color: var(--color-moss);
+        border: 1px solid var(--color-mint);
+        border-radius: 8px; /* 輸入框較小的圓角 */
         box-sizing: border-box;
         font-size: 16px;
-        box-shadow: 2px 2px 0 var(--border-color-dark); 
+        transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="date"]:focus {
+        border-color: var(--color-salmon);
+        outline: none;
     }
 
-    /* 按鈕樣式：鮮豔的主色調 */
+    /* 按鈕樣式：活潑且有圓角和輕微漸變 */
     .calculate-button {
         width: 100%;
-        padding: 10px; /* 減少內邊距 */
-        background-color: var(--primary-color);
-        color: var(--text-color);
+        padding: 12px;
+        background-color: var(--color-salmon); /* 鮭魚粉主色 */
+        /* 活潑漸變效果 */
+        background-image: linear-gradient(to top right, var(--color-salmon), #ffb2a0);
+        color: white;
         border: none;
-        border-radius: 0;
-        font-size: 16px;
+        /* 圓角 */
+        border-radius: 25px; 
+        font-size: 18px;
         font-weight: bold;
         cursor: pointer;
-        transition: all 0.1s;
-        /* 模擬 3D 立體按鈕 */
-        border: 3px solid var(--text-color);
-        box-shadow: 4px 4px 0 var(--border-color-dark);
+        transition: all 0.2s;
+        /* 輕微的活潑陰影 */
+        box-shadow: 0 4px 10px rgba(221, 151, 135, 0.4); 
     }
 
     .calculate-button:hover {
-        background-color: #ff3377;
-        box-shadow: 2px 2px 0 var(--border-color-dark);
-        transform: translate(2px, 2px); 
+        background-color: #e38d7c;
+        transform: translateY(-2px); /* 輕微上浮 */
+        box-shadow: 0 6px 12px rgba(221, 151, 135, 0.6);
     }
     
     .calculate-button:active {
-        box-shadow: 0 0 0 transparent;
-        transform: translate(4px, 4px);
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(221, 151, 135, 0.4);
     }
 
     /* 結果顯示區塊 */
     .result-section {
         margin-top: 20px;
         padding: 15px;
-        border-top: 2px solid var(--secondary-color);
-        background-color: #1a151c;
-        /* 讓結果文字突出 */
-        text-shadow: 0 0 3px var(--secondary-color); 
+        border-top: 2px dashed var(--color-mint);
+        background-color: var(--color-sage); /* 鼠尾草綠背景 */
+        border-radius: var(--border-radius); /* 圓角 */
     }
 
     .result-section p {
         font-size: 16px;
         margin: 8px 0;
+        color: var(--color-moss);
     }
 
     .result-section strong {
-        color: var(--secondary-color); /* 結果數字使用亮綠色 */
+        color: var(--color-salmon); /* 結果數字使用鮭魚粉 */
         font-size: 18px;
-        text-shadow: 0 0 10px var(--secondary-color); 
     }
 
     /* 彈窗樣式 (自製 Modal) */
@@ -197,27 +198,26 @@
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgba(0,0,0,0.8);
-        backdrop-filter: blur(2px);
+        background-color: rgba(103, 141, 88, 0.6); /* 使用較深的苔蘚綠半透明背景 */
     }
 
     .modal-content {
-        background-color: #3f2f4c;
-        color: var(--text-color);
+        background-color: white;
+        color: var(--color-moss);
         margin: 15% auto;
         padding: 30px;
-        border-radius: 0;
+        border-radius: var(--border-radius); /* 圓角 */
         width: 80%;
         max-width: 400px;
         text-align: center;
-        border: 3px solid var(--border-color-light);
-        box-shadow: 8px 8px 0 var(--border-color-dark);
-        text-shadow: 1px 1px 0 var(--border-color-dark);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
     .modal-button {
-        background-color: var(--primary-color);
-        color: var(--text-color);
+        /* 彈窗按鈕也使用活潑樣式 */
+        background-color: var(--color-mint);
+        background-image: linear-gradient(to bottom, var(--color-mint), #8ff5c7);
+        color: var(--color-moss);
         border: none;
         padding: 10px 20px;
         text-align: center;
@@ -226,26 +226,23 @@
         font-size: 16px;
         margin-top: 20px;
         cursor: pointer;
-        border-radius: 0;
-        transition: all 0.1s;
-        border: 3px solid var(--text-color);
-        box-shadow: 4px 4px 0 var(--border-color-dark);
+        border-radius: 20px; /* 圓角 */
+        transition: all 0.2s;
+        box-shadow: 0 3px 6px rgba(116, 211, 174, 0.5);
     }
 
     .modal-button:hover {
-        background-color: #ff3377;
-        box-shadow: 2px 2px 0 var(--border-color-dark);
-        transform: translate(2px, 2px);
+        background-color: #8ce1c0;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(116, 211, 174, 0.6);
     }
 
-    /* 上次運算結果提示 */
+    /* 上次運算結果提示 (功能保留，文字隱藏) */
     .localstorage-tip {
-        margin-top: 10px;
-        color: transparent; /* 將文字顏色設為透明，但保持元素存在 */
-        font-size: 1px; /* 縮小字體到最小 */
-        height: 0; /* 高度設為 0 */
-        overflow: hidden; /* 隱藏內容 */
-        /* 註解插槽：上次運算結果提示文字已移除，但功能保留 */
+        color: transparent;
+        font-size: 1px; 
+        height: 0; 
+        overflow: hidden; 
     }
 </style>
 </head>
